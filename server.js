@@ -11,8 +11,9 @@ const mime = {
 }
 
 createServer((req, res) => {
-  const path = req.url === '/health' ? null : join(root, req.url === '/' ? 'index.html' : req.url)
-  if (req.url === '/health') {
+  const pathname = new URL(req.url, 'http://localhost').pathname
+  const path = pathname === '/health' ? null : join(root, pathname === '/' ? 'index.html' : pathname)
+  if (pathname === '/health') {
     res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
     return res.end(JSON.stringify({ ok: true, service: 'propuesta-serana-clases-operativas' }))
   }
